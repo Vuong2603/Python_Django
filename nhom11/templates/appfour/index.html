@@ -1,0 +1,163 @@
+{% extends 'appfour/base.html' %}
+{% block body_block %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="mt-4 p-5 bg-light rounded">
+
+    <script>
+        function editPost(postId) {
+
+            window.location.href = "/form/update" + postId;
+        }
+    </script>
+
+    {% for post in posts %}
+    <h2>{{ post.title }}</h2>
+    <p>Created at: {{ post.date }}</p>
+    <h4>{{ post.body }}</h4>
+    <img src="{{ post.image_post.url }}" alt=""><br>
+    {% if user.is_superuser %}
+
+    <a href="{% url 'post_update' post.id %}"><button class="btn btn-post"><i class="fas fa-edit"></i> Edit</button></a>
+
+    {% endif %}
+
+    <h5>Comments</h5>
+    <div id="comments">
+        {% for comment in post.comments.all %}
+        <strong>
+            {{ comment.user }} - {{ comment.date_comment }}
+
+            {% if user.is_superuser %}
+            <a href="{% url 'comment_update' comment.id %}" style="text-decoration: none; color: #e95029;"><i class="fas fa-edit"></i>edit</a>
+            {% else %}
+            
+            {% if request.user.is_authenticated and comment.user == request.user %}
+
+            <a href="{% url 'comment_update' comment.id %}" style="text-decoration: none; color: #e95029;"><i class="fas fa-edit"></i>edit</a>
+            
+            {% endif %}
+            {% endif %}
+           
+        </strong>
+        <br>
+        {{ comment.body }}
+        <br>
+        
+        {% empty %}
+        <p>No comments yet.</p>
+        {% endfor %}
+    </div>
+
+    
+
+
+    <form id="comment-form" method="POST" action="{% url 'comment' post.id %}">
+        <div class="comment">
+            {% csrf_token %}
+            <input type="hidden" name="post_id" value="{{ post.id }}">
+            <textarea name="comment" placeholder="Your comment"></textarea>
+            <button type="submit" value="Post" class="submit"><i class="fas fa-comment"></i> Comment</button>
+            <!-- <input type="submit" value="Post" class="btn btn-post"> -->
+            <!-- <a href="{% url 'comment' post.id %}"><button value="POST">comment</button></a> -->
+        </div>
+    </form>
+    {% endfor %}
+
+    <style>
+        #comment-form {
+            margin-bottom: 20px;
+        }
+
+        .comment textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+        }
+
+        .comment .submit {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+
+
+
+        h2 {
+            color: rgb(74, 119, 243);
+            font-size: 35px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        p {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-post {
+            margin-bottom: 10px;
+        }
+
+        h5 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: rgba(235, 245, 94, 0.849);
+        }
+
+        #comments strong {
+            font-weight: bold;
+        }
+
+        #comments br {
+            margin-bottom: 5px;
+        }
+
+        #comments p {
+            margin-bottom: 10px;
+        }
+
+        #comments p:last-child {
+            margin-bottom: 0;
+        }
+
+        #comments {
+            background: rgb(61, 61, 61);
+        }
+    </style>
+    {% endblock %}

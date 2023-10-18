@@ -1,0 +1,65 @@
+{% extends 'appfour/base.html' %}
+{% load static %}
+{% block body_block %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<div>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% load static %}
+        {{ form.as_p }}
+        Title: <input type="text" name="title"><br>
+        body: <textarea name="body" id="" cols="30" rows="10"></textarea><br>
+        image: <input type="file" name="image_post" accept="image/*" id="id_image_post"><br>
+        <!-- <input type="submit" value="Post" class="btn btn-post"> -->
+        <button type="submit" class="btn btn-post"><i class="fas fa-paper-plane"></i> Post</button>
+    </form>
+
+    <style>
+
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        .btn-post {
+            background-color: blue;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-post:hover {
+            background-color: darkblue;
+        }
+
+        button {
+            background-color: blue;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        button i {
+            font-size: 20px;
+        }
+    </style>
+</div>
+{% endblock %}

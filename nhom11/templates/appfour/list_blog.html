@@ -1,0 +1,97 @@
+{% extends 'appfour/base.html' %}
+{% block body_block %}
+{% load crispy_forms_tags %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<form method="GET" action="{% url 'search' %}" class="search-bar">
+    {% csrf_token %}
+    <input type="text" name="search_query" class="my-custom-class">
+    <button type="submit" class="icon-button"><i class="fas fa-search"></i> Search</button>
+
+</form>
+<!-- 
+{% if posts %}
+<h2>Search Results:</h2>
+<ul>
+    {% for post in posts %}
+    <li>{{ post.title }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No results found.</p>
+{% endif %} -->
+
+
+{% for post in posts %}
+<h2>{{ post.title }}</h2>
+<p>Created at: {{ post.date }}</p>
+{% if user.is_superuser %}
+
+<a href="{% url 'post_update' post.id %}"><button class="btn btn-post"><i class="fas fa-edit"></i> Edit</button></a>
+
+{% endif %}
+{% endfor %}
+<style>
+    .btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-post {
+        margin-bottom: 10px;
+    }
+
+    form {
+        background-color: #f2f2f2;
+        padding: 20px;
+
+    }
+
+    input[type="text"],
+    button {
+        background-color: #ffffff;
+        border: 1px solid #dddddd;
+        padding: 10px;
+        margin-bottom: 10px;
+        color: #333333;
+    }
+
+    button {
+        background-color: #ffa846;
+        color: #ffffff;
+        
+    }
+
+    input[type="text"]:hover,
+    button:hover {
+        background-color: #eeeeee;
+    }
+
+    input[type="text"]:focus {
+        border: 1px solid #007bff;
+        box-shadow: 10 10 5px #007bff;
+    }
+
+    input[type="text"],
+    button {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: initial;
+        margin-bottom: 20px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+</style>
+
+{% endblock %}

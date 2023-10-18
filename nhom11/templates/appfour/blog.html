@@ -1,0 +1,53 @@
+{% extends 'appFour/base.html' %}
+{% block body_block %}
+
+<div class="mt-4 p-5 bg-light rounded ">
+    <script>
+        function editPost(postId) {
+            
+            window.location.href = "/form/update" + postId;
+        }
+    </script>
+    {% comment %} <a class="nav-link" href="{% url 'appFour:create_draft' %}">Create_Draft</a> {% endcomment %}
+    {% for post in posts %}
+    <h1>{{ post.title }}</h1>
+    <p>Created at: {{ post.date }}</p>
+    <h4>{{ post.body }}</h4>
+    <img src="{{ post.image_post.url }}" alt="" style="width: 100px; height: 100px;"><br>
+    <a href="{% url 'post_update' post.id %}"><button>Edit</button></a>
+    
+    <h3>Comments</h3>
+    <div id="comments">
+        {% for comment in post.comments.all %}
+        <p>{{ comment.body }}</p>
+        {% empty %}
+        <p>No comments yet.</p>
+        {% endfor %}
+    </div>
+
+    <h3>Add a Comment</h3>
+    <form id="comment-form">
+        {% csrf_token %}
+        <input type="hidden" name="post_id" value="{{ post.id }}">
+        <textarea name="body" placeholder="Your comment"></textarea>
+        <button type="submit">Submit</button>
+    </form>
+    <script>
+        document.getElementById('comment-submit').addEventListener('click', function () {
+            // Lấy nội dung của comment từ input
+            var commentInput = document.getElementById('comment-input');
+            var commentBody = commentInput.value;
+
+            // Tạo một phần tử <li> mới để hiển thị comment
+            var commentList = document.getElementById('comment-list');
+            var newComment = document.createElement('li');
+            newComment.textContent = commentBody;
+
+            // Thêm comment mới vào danh sách comment
+            commentList.appendChild(newComment);
+
+            // Xóa nội dung comment trong input
+            commentInput.value = '';
+        });
+    </script>
+{% endblock %}

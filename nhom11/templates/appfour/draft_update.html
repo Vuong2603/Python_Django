@@ -1,0 +1,92 @@
+{% extends 'appFour/base.html' %}
+{% load static %}
+{% block body_block %}
+{% if draft %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" value="{{ draft.title }}" required><br>
+
+    <label for="body">Body:</label>
+    <!-- <input type="body" id="body" name="body" value="{{ post.body }}" required><br> -->
+    <textarea name="body" id="body" cols="30" rows="10">{{ draft.body }}</textarea><br>
+    <label for="image">Image:</label>
+    <input type="file" src="{{ draft.image_post.url }}" id="image" name="image" accept="image/*"><br>
+
+    <button type="submit"><i class="fas fa-sync-alt"></i> Update</button>
+    <button id="delete-draft" type="button"><i class="fas fa-trash-alt"></i> Delete</button>
+
+    <script>
+        document.getElementById("delete-draft").addEventListener("click", function () {
+
+            window.location.href = "/draft_delete/{{ draft.pk }}/";
+
+        });
+    </script>
+    {% endif %}
+    <style>
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="file"] {
+      margin-bottom: 10px;
+    }
+
+    button[type="button"] {
+      background-color: rgb(255, 0, 0);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button[type="button"]:hover {
+      background-color: darkblue;
+    }
+
+    button[type="submit"] {
+      background-color: blue;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: darkblue;
+    }
+
+    #delete-button {
+      background-color: red;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #delete-button:hover {
+      background-color: darkred;
+    }
+  </style>
+    {% endblock %}

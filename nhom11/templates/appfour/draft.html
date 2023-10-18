@@ -1,0 +1,74 @@
+{% extends 'appfour/base.html' %}
+{% block body_block %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+<div class="mt-4 p-5 bg-light rounded">
+    <h1>Draft</h1>
+    <!-- {% comment %} <a class="nav-link" href="{% url 'appFour:create_draft' %}">Create_Draft</a> {% endcomment %} -->
+    <!-- <form action="" method="post"> -->
+    {% csrf_token %}
+    <div id="draft">
+        {% for draft_post in drafts %}
+        <h2>{{ draft_post.title }}</h2>
+        <p>Date: {{ draft_post.date }}</p>
+        <h4>{{ draft_post.body }}</h4>
+        <!-- <p>image: {{ draft_post.image_post }}</p> -->
+        image:<img src="{{ draft_post.image_post.url }}" alt=""><br>
+        <!-- <button class="btn btn-post">Post</button> -->
+        <!-- <input type="submit" value="Post" class="btn btn-post"> -->
+        <a href="{% url 'draft_update' draft_post.id %}"><button class="btn btn-post"><i class="fas fa-edit"></i> Edit</button></a>
+        <a href="{% url 'draft' draft_post.id %}"><button class="btn btn-post"><i class="fas fa-paper-plane"></i> Post</button></a>
+        <!-- <a href="{% url 'index' %}"><button class="btn btn-post">Post</button></a> -->
+
+        {% endfor %}
+    </div>
+    <!-- </form> -->
+</div>
+<style>
+    #draft {
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: #999;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    img {
+        max-width: 500px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .btn-post {
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        color: rgb(74, 119, 243);
+        font-size: 35px;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'appFour/base.html' %}
+{% load static %}
+{% block body_block %}
+{% if comment %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+<form action="" method="post">
+    {% csrf_token %}
+    <h2> {{ comment.post.title }}</h2><br>
+    <p>{{ comment.user }}</p><br>
+    <input type="text" name="body" id="body" value="{{ comment.body }}"><br>
+    <button type="submit"><i class="fas fa-sync-alt"></i> Update</button>
+    <button id="delete-comment" type="button"><i class="fas fa-trash-alt"></i> Delete</button>
+    <script>
+        document.getElementById("delete-comment").addEventListener("click", function () {
+
+            window.location.href = "/comment_delete/{{ comment.pk }}/";
+
+        });
+    </script>
+</form>
+<style>
+    form {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    input[type="text"],
+    button {
+        width: 100%;
+        padding: 10px;
+    }
+
+    button[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    button#delete-comment {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+</style>
+{% endif %}
+{% endblock%}

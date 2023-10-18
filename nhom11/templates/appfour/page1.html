@@ -1,0 +1,7 @@
+{% extends 'appfour/base.html'%}
+{% block body_block %}
+<h1>Welcome to home page</h1>
+<h1>This is en example of template inheritance! </h1>
+{{ text | cut:"Hello" }}
+{{ number | add:"99" }}
+{% endblock %}
